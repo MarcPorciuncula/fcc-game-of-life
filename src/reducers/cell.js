@@ -13,7 +13,7 @@ export default function cell(state = DEFAULT_STATE, action) {
         alive: action.alive,
       });
     case TICK:
-      if (state.alive && (action.neighbours === 1 || action.neighbours > 3)) {
+      if (state.alive && (action.neighbours <= 1 || action.neighbours > 3)) {
         return Object.assign({}, state, { alive: false });
       } else if (action.neighbours === 3) {
         return Object.assign({}, state, { alive: true });

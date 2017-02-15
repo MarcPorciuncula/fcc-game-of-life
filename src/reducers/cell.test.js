@@ -27,7 +27,9 @@ test('TICK - a live cell with fewer than two live neighbours dies', (t) => {
   state = reducer(state, action(SET, { alive: true }));
   state = reducer(state, action(TICK, { neighbours: 1 }));
   t.false(state.alive);
-
+  state = reducer(state, action(SET, { alive: true }));
+  state = reducer(state, action(TICK, { neighbours: 0 }));
+  t.false(state.alive);
 });
 
 test('TICK - a live cell with two or three live neighbours lives on', (t) => {

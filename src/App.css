@@ -22,3 +22,30 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.table {
+  border-spacing: 0;
+}
+
+.row {
+  position: relative;
+}
+
+.cell {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #E0E0E0;
+  width: 20px;
+  height: 20px;
+}
+
+/*.cell::before {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}*/
+
+.cell--alive {
+  background-color: #90CAF9;
+}

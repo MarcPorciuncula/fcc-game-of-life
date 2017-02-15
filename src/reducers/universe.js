@@ -9,6 +9,7 @@ export const SET = 'universe/SET';
 export const RESIZE = 'universe/RESIZE';
 export const TICK = 'universe/TICK';
 export const CLEAR = 'universe/CLEAR';
+export const REPLACE = 'universe/REPLACE';
 
 const DEFAULT_STATE = [[cellReducer(undefined, {})]];
 
@@ -50,6 +51,8 @@ export default function universe(state = DEFAULT_STATE, action) {
           cellReducer(undefined, {}),
         )
       );
+    case REPLACE:
+      return action.state;
     default:
       return DEFAULT_STATE;
   }

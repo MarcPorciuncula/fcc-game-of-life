@@ -62,6 +62,12 @@ test('TICK advances the game', (t) => {
     [LIVE, LIVE, DEAD],
     [DEAD, DEAD, DEAD],
   ]);
+  state = reducer(state, action(TICK));
+  t.deepEqual(state, [
+    [LIVE, LIVE, DEAD],
+    [LIVE, LIVE, DEAD],
+    [DEAD, DEAD, DEAD],
+  ]);
 });
 
 test('CLEAR makes all cells on the board dead', (t) => {

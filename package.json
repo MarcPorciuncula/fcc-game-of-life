@@ -3,16 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "ignore-styles": "^5.0.1",
     "react-scripts": "0.9.0"
   },
   "dependencies": {
+    "ava": "^0.18.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "cross-env NODE_ENV=test ava",
+    "test:watch": "cross-env NODE_ENV=test ava --watch",
     "eject": "react-scripts eject"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register",
+      "ignore-styles",
+      "./src/test-setup"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
   }
 }

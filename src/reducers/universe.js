@@ -34,8 +34,8 @@ export default function universe(state = DEFAULT_STATE, action) {
     case TICK:
       return state.map((row, y) =>
         row.map((cell, x) => {
-          let neighbouringCells = range(-1, 3).map((yRel) =>
-            range(-1, 3).map((xRel) =>
+          let neighbouringCells = range(-1, 2).map((yRel) =>
+            range(-1, 2).map((xRel) =>
               (yRel === 0 && xRel === 0) ? null : maybeAccessAt(state, { x: x + xRel, y: y + yRel})
             )
           ).reduce((arr, row) => arr.concat(row), []);

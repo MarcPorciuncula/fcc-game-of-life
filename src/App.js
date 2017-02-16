@@ -9,9 +9,9 @@ import {
 } from './reducers/universe';
 import './App.css';
 
-function Cell({ alive }) {
+function Cell({ lifetime }) {
   return (
-    <td className={classnames('cell', `cell--${alive ? 'alive' : 'dead'}`)} />
+    <td className="cell" style={{ backgroundColor: '#0091EA', opacity: lifetime > 0 ? Math.log10(lifetime + 1) : 0 }} />
   );
 }
 
@@ -26,7 +26,7 @@ class App extends Component {
   randomize() {
     const universe = this.props.universe.map((row, y) => {
       return row.map((cell, x) => {
-        return { alive: Math.random() < 0.1 }
+        return Math.random() < 0.6 ? 1 : 0
       });
     });
     this.props.replace(universe);
@@ -36,7 +36,7 @@ class App extends Component {
       const start = performance.now();
       this.props.tick();
       console.log(performance.now() - start);
-    }, 1000 / 5);
+    }, 1000 / 30);
   }
   render() {
     return (
@@ -45,8 +45,8 @@ class App extends Component {
           <tbody>
             {this.props.universe.map((row, i) => (
               <tr className="row" key={i}>
-                {row.map(({ alive }, j) => (
-                  <Cell key={j} alive={alive} />
+                {row.map((lifetime, j) => (
+                  <Cell key={j} lifetime={lifetime} />
                 ))}
               </tr>
             ))}

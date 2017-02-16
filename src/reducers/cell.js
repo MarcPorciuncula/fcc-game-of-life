@@ -2,23 +2,19 @@
 export const SET = 'cell/SET';
 export const TICK = 'cell/TICK';
 
-const DEFAULT_STATE = {
-  alive: false,
-};
+const DEFAULT_STATE = 0;
 
 export default function cell(state = DEFAULT_STATE, action) {
   switch (action.type) {
     case SET:
-      return Object.assign({}, state, {
-        alive: action.alive,
-      });
+      return action.alive ? 1 : 0;
     case TICK:
-      if (state.alive && (action.neighbours <= 1 || action.neighbours > 3)) {
-        return Object.assign({}, state, { alive: false });
-      } else if (action.neighbours === 3) {
-        return Object.assign({}, state, { alive: true });
+      if (!!state && (action.neighbours <= 1 || action.neighbours > 3)) {
+        return 0;
+      } else if (!state && action.neighbours === 3) {
+        return 1;
       }
-      return state;
+      return state ? state + 1 : 0;
     default:
       return state;
   }

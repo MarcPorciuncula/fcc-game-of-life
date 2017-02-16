@@ -34,15 +34,10 @@ export default function universe(state = DEFAULT_STATE, action) {
     case TICK:
       return state.map((row, y) =>
         row.map((cell, x) => {
-          let neighbouringCells = range(-1, 2).map((yRel) =>
-            range(-1, 2).map((xRel) =>
-              (yRel === 0 && xRel === 0) ? null : maybeAccessAt(state, { x: x + xRel, y: y + yRel})
-            )
-          ).reduce((arr, row) => arr.concat(row), []);
-          let nLiveNeighbouringCells = neighbouringCells
-            .map((neighbouringCell) => neighbouringCell && neighbouringCell.alive)
-            .reduce((n, alive) => alive ? n + 1 : n, 0);
-          return cellReducer(cell, { type: CELL_TICK, neighbours: nLiveNeighbouringCells });
+          return cellReducer(cell, {
+            type: CELL_TICK,
+            neighbours: tallyLiveNeighbours(state, { x, y })
+          });
         })
       );
     case CLEAR:
@@ -58,10 +53,23 @@ export default function universe(state = DEFAULT_STATE, action) {
   }
 }
 
-function maybeAccessAt(array, { x, y }) {
+export function maybeAccessAt(array, { x, y }) {
   if (y < 0 || x < 0 || y >= array.length || x >= array[y].length) {
     return null;
   } else {
     return array[y][x];
   }
+}
+
+const RANGE = range(-1, 2);
+
+export function tallyLiveNeighbours(array, { x, y }) {
+  return RANGE
+    .map((yRel) =>
+      RANGE.map((xRel) => (
+        (yRel === 0 && xRel === 0) ? null : maybeAccessAt(array, { x: x + xRel, y: y + yRel})
+      ))
+    )
+    .reduce((a, b) => a.concat(b), [])
+    .reduce((a, b) => !!b ? a + 1 : a, 0);
 }

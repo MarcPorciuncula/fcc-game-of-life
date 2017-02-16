@@ -11,8 +11,14 @@
   user-select: none;
 }
 
-.start-stop-button {
-  position: absolute !important;
+.menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column-reverse;
   right: 25px;
   bottom: 25px;
+}
+
+.menu button {
+  margin: 5px;
 }

@@ -7,6 +7,8 @@ import {
   RESIZE,
   SET,
   TICK,
+  CLEAR,
+  REPLACE,
 } from './reducers/universe';
 import './Game.css';
 import '@material/button/dist/mdc.button.css';
@@ -18,11 +20,14 @@ class Game extends React.Component {
     super(props);
     this.handleResize = this.handleResize.bind(this);
     this.toggleCell = this.toggleCell.bind(this);
-    this.start = this.start.bind(this);
-    this.stop = this.stop.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+    this.reset = this.reset.bind(this);
+    this.randomize = this.randomize.bind(this);
     this.interval = null;
     this.state = {
       playing: false,
+      steps: 0,
     }
   }
   componentDidMount() {
@@ -41,24 +46,43 @@ class Game extends React.Component {
   toggleCell(x, y) {
     this.props.dispatch({ type: SET, x, y, alive: !this.props.universe[y][x] });
   }
-  start() {
+  play() {
     if (this.interval) {
       clearInterval(this.interval);
     }
     this.interval = setInterval(() => {
       this.props.dispatch({ type: TICK });
+      this.setState({
+        steps: this.state.steps + 1,
+      })
     }, 1000 / 10);
     this.setState({
       playing: true,
     });
   }
-  stop() {
+  pause() {
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
     this.setState({
       playing: false,
+    });
+  }
+  reset() {
+    this.pause();
+    this.setState({
+      steps: 0,
+    });
+    this.props.dispatch({ type: CLEAR });
+  }
+  randomize() {
+    this.reset();
+    this.props.dispatch({
+      type: REPLACE,
+      state: this.props.universe.map(row =>
+        row.map(() => Math.random() < 0.4 ? 1 : 0)
+      )
     });
   }
   render() {
@@ -81,12 +105,31 @@ class Game extends React.Component {
             />
           ))
         ))}
-        <button
-          className="mdc-button mdc-button--raised start-stop-button"
-          onClick={this.state.playing ? this.stop : this.start}
-        >
-          {this.state.playing ? 'Stop' : 'Start'}
-        </button>
+        <div className="menu">
+          <button
+            className="mdc-button mdc-button--raised"
+            onClick={this.state.playing ? this.pause : this.play}
+          >
+            {this.state.playing ? 'Pause' : 'Play'}
+          </button>
+          <button
+            className="mdc-button"
+            onClick={this.reset}
+          >
+            Reset
+          </button>
+          <button
+            className="mdc-button"
+            onClick={this.randomize}
+          >
+            Random
+          </button>
+          <button disabled
+            className="mdc-button"
+          >
+            {this.state.steps}
+          </button>
+        </div>
       </div>
     )
   }

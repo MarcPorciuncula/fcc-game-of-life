@@ -1,0 +1,18 @@
+.universe {
+  position: relative;
+}
+
+.cell {
+  position: absolute;
+  /*border: 1px solid #E0E0E0;*/
+  width: 20px;
+  height: 20px;
+  background-color: #0091EA;
+  user-select: none;
+}
+
+.start-stop-button {
+  position: absolute !important;
+  right: 25px;
+  bottom: 25px;
+}

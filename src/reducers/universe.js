@@ -1,4 +1,5 @@
 import range from 'lodash/range';
+import R from 'ramda';
 
 import cellReducer, {
   SET as CELL_SET,
@@ -22,15 +23,9 @@ export default function universe(state = DEFAULT_STATE, action) {
         )
       );
     case SET:
-      return [
-        ...state.slice(0, action.y),
-        [
-          ...state[action.y].slice(0, action.x),
-          cellReducer(state[action.y][action.x], { type: CELL_SET, alive: action.alive }),
-          ...state[action.y].slice(action.x),
-        ],
-        ...state.slice(action.y + 1),
-      ];
+      let newState = R.clone(state);
+      newState[action.y][action.x] = cellReducer(newState[action.y][action.x], { type: CELL_SET, alive: action.alive });
+      return newState;
     case TICK:
       return state.map((row, y) =>
         row.map((cell, x) => {

@@ -11,12 +11,22 @@
   user-select: none;
 }
 
-.menu {
+.docked {
   position: absolute;
+  right: 10px;
+  bottom: 5px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+}
+
+.credit {
+  margin: 10px 20px;
+}
+
+.menu {
   display: flex;
   flex-direction: column-reverse;
-  right: 25px;
-  bottom: 25px;
 }
 
 .menu button {
